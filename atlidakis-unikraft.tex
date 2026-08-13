@@ -4,6 +4,8 @@
   pdfauthor={Vaggelis Atlidakis},
 }
 \begin{document}
+% Local, this-letter-only slight downscale to keep the body on one page.
+\fontsize{9.4pt}{11.5pt}\selectfont
 
 \letterhead
 \vspace{2pt}
@@ -37,48 +39,48 @@ context, and to shed light on what their potential shortcomings may be.
 (ii)~\emph{Design \& Implementation}: Second, depending on the direction the empirical
 data points to, I plan to design and implement a set of abstractions
 to support the future implementation of portable, secure, and efficient agents.
-This will include inherent support for context-aware inter-agent communication, as opposed
-to traditional, low-level Inter-Process Communication (IPC);
-token-consumption-aware task scheduling, as opposed to traditional scheduling
-policies optimized for low latency or high throughput;
-plan optimization that exploits the commutativity properties of constituent subtasks,
-which current agent planning schemes are oblivious to; and a
+This will include inherent support for context-aware inter-agent communication,
+token-consumption-aware task scheduling, plan optimization that exploits the commutativity
+properties of constituent subtasks, and a
 capability-based security model.
 (iii)~\emph{Testing}: Finally, to enforce an inherent ``trust but verify'' loop in
 the new era of agentic software development, I intend to investigate how to
-automatically infer correctness preconditions that generated software ought
-to satisfy, and enforce that the generated software will only be spit out if
-the dericed preconditions are sound enough XXX or omething else i don' know work on this.
+automatically infer the correctness preconditions that generated software ought
+to satisfy, and to make code emission contingent not on the code passing those
+preconditions---as is common today---but on the preconditions themselves being
+adequate in faithfully capturing the correctness properties implied by
+the user's input prompt.
 
-%\lead{Record.} I have worked both sides of this agenda: discovering
-%vulnerabilities automatically, and building the mechanisms that contain them.
-%RESTler, the first stateful REST API fuzzer, found hundreds of bugs in
-%production Azure, O365, and Bing services, open-sourced and patented
-%\venue{ICSE~'19, ICST~'20}; IvySyn uncovered 61 previously-unknown
-%vulnerabilities (39 CVEs) in TensorFlow and PyTorch
-%\venue{USENIX Sec~'23}. On defense, FineIBT---fine-grain, hardware-assisted
-%control-flow integrity---was adopted by Intel and upstreamed, in a variant, to
-%the Linux kernel \venue{RAID~'23}, and Eclipse blocks speculative abuse of
-%memory errors \venue{CCS~'24}. I was an NSF/CRA Computing Innovation Fellow,
-%and I ship production software in industry alongside my tenure-track post in
-%Athens; I serve on the 2026 CCS, EuroSys, and RAID program committees.
-%
-%\lead{Why Unikraft.} My agenda names a primitive it does not yet have:
-%isolation cheap enough to wrap every tool call. Agent runtimes today reach for
-%containers or long-lived VMs, pay for them in cold-start latency and
-%per-instance footprint, and amortize by reusing one sandbox across many tool
-%invocations---and reuse is exactly where task-scoped isolation breaks down.
-%Unikraft moves that trade-off: specialized unikernels on microVMs, with
-%10--50\,ms cold starts, tens of thousands of strongly isolated instances per
-%server, and true scale-to-zero \venue{EuroSys~'21}, make isolating each tool
-%call affordable rather than something to design away. That is the substrate the
-%design program above assumes; I would rather build the agentic abstractions on
-%a specialized library OS than re-derive the isolation layer inside another
-%user-space runtime. This letter answers no specific posting: it proposes a
-%direction of work, and I would like to find out where in your platform or
-%research it belongs.
+\lead{Record.} Over the past decade, I have worked on all three fronts of
+this agenda. On measurement, my collaborators and I ran the first broad
+study of how modern applications use POSIX abstractions, across Android,
+macOS, and Ubuntu \venue{EuroSys~'16}.
+On abstractions for building robust software, SysXCHG refines privilege with
+adaptive system-call filters
+\venue{CCS~'23}; FineIBT---fine-grain, hardware-assisted control-flow
+integrity---was adopted by Intel and upstreamed, in a variant, to the Linux
+kernel \venue{RAID~'23}; Eclipse blocks speculative abuse of memory errors
+\venue{CCS~'24}; and PixelDP was the first certified defense against adversarial
+examples to scale to ImageNet-size networks \venue{IEEE S\&P~'19}.
+Finally, on testing, I introduced stateful REST
+API fuzzing and built RESTler, which found hundreds of bugs in production Azure,
+O365, and Bing services and was open-sourced and patented by Microsoft
+\venue{ICSE~'19, ICST~'20}; my collaborators and I then introduced bottom-up
+fuzzing in IvySyn, which uncovered 61 previously-unknown
+vulnerabilities (39 CVEs) in TensorFlow and PyTorch \venue{USENIX Sec~'23}. 
+I was an NSF/CRA Computing Innovation Fellow, and alongside my tenure-track
+position at the National and Kapodistrian University of Athens, I currently also
+hold an industry position, as a Software Engineer, in Crash Override.
 
-I would welcome a conversation.
+\lead{Why Unikraft.} The abstractions discussed above will be implemented as
+part of a library OS. Unikraft already provides the foundations my design agenda
+assumes: strong isolation cheap enough to wrap a single tool call---10--50\,ms
+cold starts, tens of thousands of instances per server, true scale-to-zero
+\venue{EuroSys~'21}---on a unikernel one builds rather than inherits, which is
+the right place to make identity, capabilities, and audit first-class.
+
+This letter answers no specific posting. Instead it proposes a direction of work,
+and I would welcome a conversation.
 
 \signature
 
@@ -129,6 +131,10 @@ Artifact: \href{https://gitlab.com/brown-ssl/fineibt}{gitlab.com/brown-ssl/finei
 Eclipse: Preventing Speculative Memory-error Abuse with Artificial Data
 Dependencies. \textit{ACM CCS}, 2024, pp.~3913--3927.
 Artifact: \href{https://gitlab.com/brown-ssl/eclipse}{gitlab.com/brown-ssl/eclipse}}
+
+\refitem{IEEE S\&P~'19}{M.~Lecuyer, V.~Atlidakis, R.~Geambasu, D.~Hsu, and
+S.~Jana. Certified Robustness to Adversarial Examples with Differential Privacy.
+\textit{IEEE S\&P}, 2019, pp.~656--672.}
 
 \refitem{EuroSys~'21}{S.~Kuenzer, V.-A.~B\u{a}doiu, H.~Lefeuvre, S.~Santhanam,
 A.~Jung, G.~Gain, C.~Soldani, C.~Lupu, \c{S}.~Teodorescu, C.~R\u{a}ducanu,
