@@ -19,35 +19,36 @@ relevance: applications had outgrown them, new abstractions were accreting
 as ad-hoc user-space libraries, and applications leaned heavily on extension
 interfaces such as \texttt{ioctl}, which the kernel cannot meaningfully
 inspect---leading to mismatches, inefficiencies, and security
-risks~\venue{EuroSys~'16, {\itshape;login:}~'16}. The same story seems plausible
-to repeating today driven by the new call of agentic workloads, in which,
-LLM-driven agents, plan, spawn sub-agents, invoke tools, and execute freshly
+risks~\venue{EuroSys~'16, {\itshape;login:}~'16}. The same story seems plausible to
+be repeating today, driven by the new class of agentic workloads, in which
+LLM-driven agents plan, spawn sub-agents, invoke tools, and execute freshly
 generated code atop abstractions designed for human users and long-lived services.
-Every agent runtime needs to re-implements identity,
-sandboxing, resource control and management, and audit in user space.
-My long-term research plan is to establish, by measurement, precisely what
-the shortcoming of running agentic workloads on tops of traditional systems
-abstractions may be, and to design new ones that would
-make these workloads portable, secure, and efficient.
+Indeed, every agent runtime re-implements identity, sandboxing, resource control and
+management, and audit in user space.
+My long-term research plan is to establish, by measurement, precisely where
+traditional systems abstractions fall short under agentic workloads, and to
+design new ones that make these workloads portable, secure, and efficient.
 
-\lead{Agenda.} I plan to conduct research on three fronts, including mesurement,
+\lead{Agenda.} I plan to conduct research on three fronts: measurement,
 design and implementation, and testing.
 (i)~\emph{Measurement}: First, a workload study of agent runtimes and tool protocols
-is needed in order to assess how traditional OS abstractions are being used in this
-context, and shed light on what the potential shortcomings may be.
-(ii)~\emph{Design \& Implementation.}: Second, depending on the direction that empirical
-data will point to, I plan to design and implement a set of abstractions
-to support the future implementation of Portable, Secure, and Efficient agents.
+is needed to assess how traditional OS abstractions are being used in this
+context, and to shed light on what their potential shortcomings may be.
+(ii)~\emph{Design \& Implementation}: Second, depending on the direction the empirical
+data points to, I plan to design and implement a set of abstractions
+to support the future implementation of portable, secure, and efficient agents.
 This will include inherent support for context-aware inter-agent communication, as opposed
-to traditional, low-level Inter-Process Communication (IPC); 
-token-consumption-aware task sceduling, as opposed to traditional scheduling
-policies that are optimized for low lattency or high throughput; 
-plan optimization based on the commutativity properties of the comprising subtasks,
-that current agent planning schemes are oblivious to; and a
+to traditional, low-level Inter-Process Communication (IPC);
+token-consumption-aware task scheduling, as opposed to traditional scheduling
+policies optimized for low latency or high throughput;
+plan optimization that exploits the commutativity properties of constituent subtasks,
+which current agent planning schemes are oblivious to; and a
 capability-based security model.
-(iii)~\emph{Testing}: Finally, to enforce an inherent ``trust but verify``
-loop in the new era of agentic software develepment, I intend to investigate how to
-XXX preconditions to which produced software ought to be adherent to.
+(iii)~\emph{Testing}: Finally, to enforce an inherent ``trust but verify'' loop in
+the new era of agentic software development, I intend to investigate how to
+automatically infer correctness preconditions that generated software ought
+to satisfy, and enforce that the generated software will only be spit out if
+the dericed preconditions are sound enough XXX or omething else i don' know work on this.
 
 %\lead{Record.} I have worked both sides of this agenda: discovering
 %vulnerabilities automatically, and building the mechanisms that contain them.
