@@ -1,40 +1,27 @@
-# Build all one-page research-statement cover letters.
-#
-#   make            build every atlidakis-*.tex -> PDF (only what changed)
-#   make <slug>     build one letter, e.g. `make unikraft`
-#   make view-<slug>  build then open one letter (macOS)
-#   make clean      remove LaTeX aux files, keep PDFs
-#   make cleanall   remove aux files and PDFs
-#   make list       list discovered letters
+PAPER=statement
+LATEX=xelatex
+BIBTEX=bibtex
+LATEXMK=latexmk
+LATEXMK_FLAGS=-xelatex
 
-LATEXMK ?= latexmk
-LATEXMKFLAGS := -pdf -halt-on-error -interaction=nonstopmode -use-make
+.PHONY: all clean view watch
 
-# Every letter is a top-level atlidakis-*.tex; preamble.tex is \input, not standalone.
-SOURCES := $(wildcard atlidakis-*.tex)
-PDFS    := $(SOURCES:.tex=.pdf)
-SLUGS   := $(patsubst atlidakis-%.tex,%,$(SOURCES))
+all: $(PAPER).pdf
 
-.PHONY: all clean cleanall list $(SLUGS) $(addprefix view-,$(SLUGS))
+$(PAPER).bbl: *.bib
+	$(LATEX) $(PAPER)
+	$(BIBTEX) $(PAPER)
 
-all: $(PDFS)
+$(PAPER).pdf: *.tex $(PAPER).bbl
+	$(LATEX) $(PAPER)
+	$(LATEX) $(PAPER)
 
-# Each PDF rebuilds when its own source OR the shared preamble changes.
-%.pdf: %.tex preamble.tex
-	$(LATEXMK) $(LATEXMKFLAGS) $<
+view: $(PAPER).pdf
+	open -a Skim $(PAPER).pdf
 
-# Short aliases: `make unikraft` -> atlidakis-unikraft.pdf
-$(SLUGS): %: atlidakis-%.pdf
-
-# `make view-unikraft` builds then opens (macOS `open`).
-view-%: atlidakis-%.pdf
-	open $<
-
-list:
-	@echo "Letters:"; for s in $(SLUGS); do echo "  - $$s"; done
+# Open in Skim, then watch for changes and rebuild continuously.
+watch: view
+	$(LATEXMK) $(LATEXMK_FLAGS) -pvc -view=none $(PAPER).tex
 
 clean:
-	$(LATEXMK) -c $(SOURCES)
-
-cleanall:
-	$(LATEXMK) -C $(SOURCES)
+	rm -f *.lot *.lof *.aux *.dvi *.blg *.bbl *.out *.mxl *.log $(PAPER).pdf

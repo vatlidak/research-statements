@@ -1,0 +1,592 @@
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage{amssymb}
+\usepackage[T1]{fontenc}
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{lmodern}
+\usepackage{needspace}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{xspace}
+\usepackage{tikz}			% custom graphics
+
+% Header and section style follow the VPK research statement template.
+\def\name{\Huge{Vaggelis Atlidakis}\xspace}
+\def\type{\LARGE{\textsl{Research Statement}}\xspace}
+\def\ie{\emph{i.e.,}\xspace}
+
+\hypersetup{
+  colorlinks = true,
+  citecolor = black,
+  filecolor = black,
+  linkcolor = black,
+  urlcolor = black,
+  pdfauthor = {Vaggelis Atlidakis},
+  pdftitle = {Research Statement}
+}
+
+\definecolor{green}{rgb}{0.55,0.85,0.35}
+\newcommand*{\colorrule}[2][1ex]{{\color{green}{\rule{#2}{#1}}}}
+\renewcommand{\thesection}{\colorrule[0.7ex]{.125\linewidth}}
+% Keep each project heading with enough of its description to read in context.
+\newcommand{\project}[2]{\par\Needspace{6\baselineskip}\noindent
+  $\blacktriangleright$~\textbf{#1~\cite{#2}.}}
+\widowpenalty=10000
+\clubpenalty=10000
+
+\begin{document}
+\fontsize{10.5pt}{12.4pt}\selectfont
+
+{\centering
+\begin{tabularx}{\textwidth}{X r}
+  \name & \type \\
+\end{tabularx}
+{\color{green}\rule{\linewidth}{.25ex}}}
+\par\vspace{0.45\baselineskip}
+
+% circled numbers
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+	\node[shape=circle,draw,inner sep=0.75pt] (char) {#1};}}
+
+\noindent
+\emph{My research focuses on building secure and reliable software systems.}
+The same complexity that makes modern software useful also hides failures:
+cloud APIs require long sequences of operations, machine-learning frameworks
+cross language and hardware boundaries, and operating systems expose broad
+interfaces to untrusted code. AI coding agents will create and modify software
+at still greater speed. My research addresses the resulting security and
+reliability challenge in three connected ways: \emph{discovering errors through
+automated testing}, \emph{limiting their consequences through systems
+hardening}, and \emph{prioritizing remediation using evidence from running
+software}. I build systems that turn these ideas into deployable tools and
+measure them against real applications.
+
+My research method begins with the behavior of real software. An API
+specification does not describe every state a cloud service can enter; a
+high-level ML interface does not reveal which native or GPU kernel will run;
+and a standard OS interface may not express the abstractions an application
+actually needs. I measure these gaps, then use the structure I uncover to
+build tests that reach otherwise hidden behavior. RESTler uses request
+dependencies and response feedback, IvySyn and FuzzWarp cross language and
+device boundaries, and my POSIX study measures how applications use OS
+interfaces in practice. The common goal is to produce evidence that a
+developer can reproduce and act on.
+
+Discovery also informs protection. EPF exposes how a kernel interface can
+undermine isolation, while SysXCHG, FineIBT, and Eclipse narrow privileges or
+block exploit paths without requiring every bug to be removed first. At
+Lacework, I applied the same empirical approach to remediation: runtime
+package activity helps teams decide which known vulnerabilities need
+attention now. Across these projects, I seek mechanisms that can be
+implemented in existing systems, measured for cost and effectiveness, and
+used beyond a research prototype.
+
+This agenda has developed across academic and industrial settings. My
+doctoral work at Columbia and Microsoft Research taught me to make testing
+follow the state of a real cloud service rather than isolated API calls. At
+Brown, I extended that attention to execution context across language,
+device, kernel, and hardware boundaries, and worked on defenses that remain
+practical in existing software stacks. At Lacework, I saw how deployment
+changes the question from whether a vulnerability exists to which finding a
+team should address first. Together, these experiences have shaped my aim to
+make security research useful at each stage, from discovering a failure to
+deploying a fix.
+
+{\noindent$\blacktriangleright$~\textbf{Impact and Technology Transfer.}}
+\textbf{RESTler}~\cite{restler,restler2}, the first stateful REST API fuzzer,
+has been used by Microsoft teams since 2017 for security, reliability, and
+regression testing. It found hundreds of bugs in production O365, Azure, and
+Bing services, and Microsoft open-sourced it in 2020.
+\textbf{FineIBT}~\cite{fineibt} was adopted by Intel, and a variant was
+upstreamed to the Linux kernel. At Lacework, I helped develop
+\textbf{Code-Aware Agent (CAA)}~\cite{caa}, which brings continuous package
+activity monitoring into production vulnerability prioritization. A reported
+study of 2,428 machines found that 79\% of vulnerable packages were inactive
+during its observation period, showing the practical value of runtime context.
+
+The tools also prompted concrete fixes in widely used software.
+\textbf{IvySyn}~\cite{ivysyn} helped TensorFlow and PyTorch developers
+identify and fix 61 previously unknown vulnerabilities, resulting in 39 CVEs.
+\textbf{FuzzWarp}~\cite{fuzzwarp} found 99 previously unknown GPU-specific
+memory-safety bugs in those frameworks; at the time of publication, 62 had
+been acknowledged and 37 had been fixed or had approved fixes.
+\textbf{Cynthia}~\cite{cynthia} found 28 bugs in five object-relational
+mapping systems; 25 were confirmed, 20 were fixed, and three were marked as
+release blockers. These results illustrate why I pair automated discovery
+with reproducible reports and direct engagement with maintainers.
+\pagebreak
+
+\section{Automated Software Testing}
+XXX My work on automated software testing follows a model-based principle:
+RESTler~\cite{restler,restler2}
+IvySyn~\cite{ivysyn}
+FuzzWarp~\cite{fuzzwarp}
+StratoFuzz~\cite{stratofuzz}
+FairTest~\cite{fairtest}
+Cynthia~\cite{cynthia}
+Pythia~\cite{pythia}
+effective tests must capture the state, dependencies, execution context, or
+expected behavior that shape a system's response. Specifications, feedback,
+and executable models guide valid sequences through cloud APIs and satellite
+p rotocols; control of execution paths brings tests to native and GPU kernels;
+p rotocols; control of execution paths brings tests to native and GPU kernels;
+p rotocols; control of execution paths brings tests to native and GPU kernels;
+p rotocols; control of execution paths brings tests to native and GPU kernels;
+p rotocols; control of execution paths brings tests to native and GPU kernels;
+p rotocols; control of execution paths brings tests to native and GPU kernels;
+and abstract queries, targeted data, and statistical models reveal silent
+correctness and fairness failures. Across these settings, I use system
+structure to make exploration tractable and produce reproducible evidence
+that developers can act on.
+XXX
+
+\project{RESTler}{restler}
+% OK: DO NOT TOUCH
+During my Ph.D., along with collaborators at Microsoft Research, we introduced
+stateful REST API fuzzing and built RESTler, the first stateful REST API fuzzer.
+Although REST APIs expose cloud-service operations individually, our key
+observation was that those
+operations are not independent: their behavior can depend on resources created
+by earlier requests. A fuzzer must, therefore, generate request sequences that
+establish the state needed to reach failures missed by isolated tests. RESTler
+analyzes an OpenAPI specification to infer producer-consumer dependencies:
+for example, a request that creates a project produces an identifier needed by
+later requests that create branches or issues within that project. It, then,
+combines this static structure with dynamic feedback from service responses,
+reusing resource identifiers and pruning sequences that the service rejects.
+Our evaluation showed that both dependency inference and response feedback were
+necessary to explore deeply while controlling the combinatorial search space.
+This work
+established a way to automatically test cloud services through their APIs.
+Since 2017, RESTler is used internally by multiple Microsoft
+teams for security, reliability, and functional correctness testing,
+and has found hundreds of bugs in multiple production O365, Azure, and Bing
+cloud services.
+In 2020, RESTler became open-source, and its usage has been
+steadily growing since, both inside and outside Microsoft.
+
+\project{Checking security properties of REST APIs}{restler2}
+% OK: DO NOT TOUCH
+Crashes exposed by RESTler cover only part of a cloud service's attack surface:
+an API may return a
+successful response while violating resource ownership or isolation. Therefore,
+we extended RESTler with four security rules covering access to deleted
+resources, side effects of failed resource creation, parent-child resource
+isolation, and
+separation between user namespaces. Then, we implemented modular
+active checkers that generate additional requests specifically intended to
+violate these rules.
+The checkers integrate with stateful exploration, which
+first brings the service into the state needed to test a property.
+Across nearly a dozen production Azure and Office 365 services tested, about
+one third of
+the bugs found were rule violations rather than internal-server errors---showing
+that automated API testing can
+detect non-crashing security failures with implications for resource hijacking, information
+disclosure, and denial of service.
+
+\project{Pythia}{pythia}
+% OK: DO NOT TOUCH
+RESTler's generated grammars preserve request structure and dependencies, but
+inherently use fixed fuzzing dictionaries of strings and numbers, which limit
+the set of malformed value combinations that can be explore. To address this,
+I co-developed Pythia, which uses a statistical model to learn common usage
+patterns of a target service REST API from structurally valid seed inputs, and
+then generates learning-based mutations by injecting a small amount of noise
+deviating from common usage patterns, while still maintaining syntactic validity.
+Pythia's mutation strategy helps generate grammatically valid test cases, and
+coverage-guided feedback helps prioritize the test cases that are more likely
+to find bugs. 
+Experimental evaluation on GitLab, Mastodon, and Spree, showed that
+Pythia increased coverage after baseline stateful fuzzing had plateaued, and
+also found $29$ new bugs. This work demonstrated how
+to use learning to expand fuzzing domains, while preserving the structure
+needed to reach deeper application logic.
+
+\project{IvySyn}{ivysyn}
+% OK: DO NOT TOUCH
+Deep-learning frameworks expose native C/C++ kernels through managed-language
+interfaces, and missing checks or inconsistent assumptions between the layers of
+native and managed languages can let untrusted inputs reach memory-unsafe code.
+To address this, along with collaborators from Brown university, we
+introduced a two-fold bottom-up testing approach, implemented in
+our IvySyn framework. IvySyn leverages the statically-typed nature of native
+APIs in order to automatically perform type-aware mutation-based fuzzing
+on low-level kernel code. Given a set of offending inputs that trigger memory
+safety (and runtime) errors in low-level, native DL (C/C++) code, IvySyn
+automatically synthesizes code snippets in high-level languages (e.g., in
+Python), which propagate error-triggering input via high(er)-level APIs.
+Such code snippets essentially act as ``Proof of Vulnerability'',
+as they demonstrate the existence of bugs in native code that an attacker
+can target through various high-level APIs. Our evaluation showed that IvySyn
+significantly outperforms past approaches, both in terms of efficiency and
+effectiveness, in finding vulnerabilities in popular DL frameworks. We used
+IvySyn to test TensorFlow and PyTorch, and helped the TensorFlow and PyTorch
+framework developers to identify and fix 61 previously-unknown security
+vulnerabilities ($39$ unique CVEs assigned), implicitly and explicitly
+affecting millions, if not billions, of users worldwide.
+
+\project{FuzzWarp}{fuzzwarp}
+% OK: DO NOT TOUCH
+Our recent FuzzWarp work extends IvySyn's bottom-up testing approach to target
+GPU kernels, while directly controlling the host-to-GPU execution path. FuzzWarp
+first verifies that each test input reaches the intended target kernel, which was
+a critical shortcoming of all prior work: in our baseline campaigns, 29--44\%
+of test inputs generated from existing fuzzers did not reach the target GPU kernels.
+To address this, FuzzWarp allocates each mutated
+tensor through the framework's allocator on the device the kernel expects,
+then synchronizes the GPU after every mutation, and uses NVIDIA's Compute
+Sanitizer to attribute asynchronous memory faults to their triggering inputs.
+FuzzWarp employs mutations that target dimension-product overflows, boundary values, and
+zero-dimension tensors, and akin to IvySyn, it also lifts low-level
+failures into reproducible Python API proof-of-vulnerability snippets. Across
+multiple TensorFlow versions, FuzzWarp consistently outperformed state-of-the-art
+deep-learning fuzzers
+and uncovered $99$ previously unknown GPU-specific memory-safety bugs in
+TensorFlow and PyTorch ($62$ confirmed; $37$ fixed).
+
+\project{StratoFuzz}{stratofuzz}
+% OK: DO NOT TOUCH
+Space missions depend on communication stacks that
+preserve the confidentiality, integrity, and availability of their
+data links. Testing these stacks remains difficult, however,
+because message validity depends on hidden state and inter-
+layer temporal dependencies; while reaching deeper states
+requires longer test sequences, whose number grows expo-
+nentially with length. Along with collaborators from TU Delft,
+we introduced StratoFuzz, a framework for black-box testing
+of complete, stateful protocol stacks for satellite communication. Our key
+observation is that a single executable, model of an entire such stack, can
+serve as (1) a message generator, (2) a correctness oracle, and (3) a proxy for
+the recipient' s state. Compared against AFLNet and StateAFL, StratoFuzz
+achieved significantly higher line coverage than AFLNet and StateAFL. Neither
+baseline reported a finding because their mutations failed to preserve the
+inter-layer temporal dependencies needed to reach deeper protocol states.
+By contrast, StratoFuzz found 29 previously unknown bugs (23 confirmed; one CVE
+assigned), most requiring complex multi-message sequences in order to be
+triggered
+
+\project{Cynthia}{cynthia}
+% OK: DO NOT TOUCH
+ORMs can silently return incorrect query results, yet their distinct APIs and
+dependence on database contents make such bugs difficult to test systematically.
+With collaborators from the Athens University of Economics and Business, we
+introduced what is, to the best of our knowledge, the first approach for
+systematically testing ORM systems, implemented as Cynthia. Differential
+testing establishes a test oracle for ORM-specific bugs. The approach first
+generates random relational database schemas and sets up the corresponding
+databases, then queries them through the APIs of the ORMs under test. Because
+ORMs lack a common input language, it generates queries in an abstract query
+language and translates them into concrete, executable ORM queries. A solver
+produces database records targeted to each query's constraints, making the
+comparisons informative. Cynthia found 28 bugs in five popular ORM systems:
+$25$ were confirmed, of which, $20$ were fixed, and three were marked as
+release blockers by their corresponding developers.
+
+\project{FairTest}{fairtest}
+% OK: DO NOT TOUCH
+Data-driven applications can treat users unfairly or offensively, yet such
+effects are difficult to identify without suitable tools. With collaborators
+from EPFL, we introduced the unwarranted associations (UA) framework, which
+unifies prior approaches to algorithmic fairness. UA combines investigative
+primitives and fairness metrics with subgroup analysis and utility factors
+that may explain disparities. We instantiated it in FairTest, the first
+comprehensive tool for checking unfair user treatment in data-driven
+applications. FairTest supports scalable, statistically rigorous analysis of
+associations between outcomes and sensitive attributes, with debugging tools
+to rule out confounders. Across four applications, it revealed disparate
+impact, offensive labeling, and uneven algorithmic error rates, including
+bias against older users in a predictive health application and offensive
+racial labels in an image tagging application.
+
+\section{Systematic Software Hardening}
+% NOT-OK: XXX
+XXX Testing will never find every defect. My hardening work therefore narrows the
+authority available to compromised code and blocks exploit paths even when a
+memory error remains. With collaborators at Brown, I have used compiler
+instrumentation and existing OS and processor mechanisms to make these defenses
+practical for deployed software.
+
+\project{SysXCHG}{sysxchg}
+% NOT-OK: XXX
+Linux programs inherit access to a broad system-call interface, giving
+compromised code a rich set of operations for further exploitation.
+Conventional seccomp-BPF filtering introduces another source of over-privilege:
+because filters are inherited and can only become stricter, a program that
+executes other programs must allow the calls needed by its descendants.
+My collaborators and I designed SysXCHG around an exchange model. Each binary
+carries an \emph{exec filter}, automatically installed when that binary is
+executed, so protection adapts to the current program. Explicitly installed
+manual filters remain irreversible, preserving developer-imposed restrictions.
+We use Linux's Integrity Measurement Architecture to sign filter-carrying
+binaries and prevent tampering that would widen privileges. We also developed
+\texttt{xfilter}, which enforces number-based policies through a process-specific
+view of the kernel's syscall table. In the PaSH macrobenchmarks, the combined
+design incurred at most 1.71\% slowdown; \texttt{xfilter} also reduced filter
+installation time by approximately 76--96\%. SysXCHG therefore removes the
+over-privilege caused by filter inheritance while retaining efficient
+enforcement.
+
+% We present the design, implementation, and evaluation of SysXCHG:
+% a system call (syscall) filtering enforcement mechanism that enables
+% programs to run in accordance with the principle of least privilege.
+% In contrast to the current, hierarchical design of seccomp-BPF,
+% which does not allow a program to run with a different set of allowed
+% syscalls than its descendants, SysXCHG enables applications to run
+% with “tight” syscall filters, uninfluenced by any future-executed
+% (sub-)programs, by allowing filters to be dynamically exchanged at
+% runtime during execve[at]. As a part of SysXCHG, we also present
+% xfilter: a mechanism for fast filtering using a process-specific
+% view of the kernel’s syscall table where filtering is performed. In
+% our evaluation of SysXCHG, we found that our filter exchanging
+% design is performant, incurring ≤ 1.71% slowdown on real-world
+% programs in the PaSH benchmark suite, as well as effective, blocking
+% vast amounts of extraneous functionality, including security-critical
+% syscalls, which the current design of seccomp-BPF is unable to
+
+% Lastly, to allow programs that invoke other programs
+% (e.g., via execve[at]) execute in accordance to the PoLP, I designed SysXCHG: an innovative least-privilege
+% syscall-filtering enforcement mechanism that addresses the limitations of seccomp-BPF. Specifically, in contrast to the current, hierarchical design of seccomp-BPF, which does not permit a program to run with a
+% different set of allowed syscalls than its descendants, SysXCHG enables applications to run with “tight”
+% syscall filters, uninfluenced by any future-executed (sub-)programs, by allowing filters to be dynamically
+% exchanged at runtime (safely) during execve[at]. As a part of SysXCHG, we also introduced xfilter: a
+% new mechanism for fast syscall filtering, which relies on process-specific views of the kernel’s syscall table.
+
+\project{FineIBT}{fineibt}
+% NOT-OK: XXX
+Intel's Indirect Branch Tracking (IBT) restricts indirect calls and jumps to
+marked entry points, but does not distinguish which marked target is
+appropriate for a particular transfer. Supporting shared libraries makes this
+policy especially permissive, because exported functions must also be marked.
+With collaborators at Brown and Intel, I co-developed FineIBT to enforce
+finer-grained control-flow integrity (CFI) on top of this hardware mechanism.
+Compact instrumentation passes a policy identifier at an indirect call and
+checks it at the target, preventing transfers to functions outside the allowed
+class. The enforcement mechanism is independent of how the policy is derived,
+so different analyses and CFI granularities can use the same instrumentation.
+We implemented FineIBT in LLVM on Linux and evaluated both performance and
+compatibility with modern software features. Slowdowns were at most 1.94\%
+on SPEC CPU2017 and 1.92\% on the real-world applications tested, outperforming
+Clang-CFI. FineIBT demonstrates how modest software instrumentation can turn
+a coarse hardware primitive into a more precise, deployable defense.
+
+% We present the design, implementation, and evaluation of FineIBT:
+% a CFI enforcement mechanism that improves the precision of hardware-assisted
+% CFI solutions, like Intel IBT, by instrumenting program code to reduce the 
+% valid/allowed targets of indirect forwardedge transfers. We study the design
+% of FineIBT on the x86-64 architecture, and implement and evaluate
+% it on Linux and the LLVM
+% toolchain. We designed FineIBT’s instrumentation to be compact,
+% incurring low runtime and memory overheads, and generic, so as to
+% support different CFI policies. Our prototype implementation incurs
+% negligible runtime slowdowns (≈0%–1.94% in SPEC CPU2017 and
+% ≈0%–1.92% in real-world applications) outperforming Clang-CFI.
+% Lastly, we investigate the effectiveness/security and compatibility
+% of FineIBT using the ConFIRM CFI benchmarking suite, demonstrating that our instrumentation provides complete coverage in
+% the presence of modern software features, while supporting a wide
+% range of CFI policies with the same, predictable performance
+
+
+\project{Eclipse}{eclipse}
+% NOT-OK: XXX
+Memory corruption and speculative execution have often been studied separately,
+yet attacks can combine them to defeat mitigations such as address-space
+randomization and pointer authentication. Speculative probing, for example,
+can test attacker-supplied pointers without causing the architectural fault
+that would otherwise terminate the victim. My collaborators and I developed
+Eclipse to block this class of speculative memory-error abuse. The compiler
+identifies susceptible indirect branches and propagates artificial data
+dependencies to their operands, preventing attacker-controlled pointers from
+being used along mispredicted execution paths. This targets the attack's
+speculative computation without requiring every side channel or memory error
+to be eliminated, and without stopping speculation wholesale with fences.
+We demonstrated protection against speculative-probing and PACMAN-style
+attacks across userland and kernel settings on x86-64 and ARM. Our x86-64
+performance evaluation measured approximately 0--9.5\% slowdown on SPEC
+CPU2017, up to 8.6\% in real applications, and negligible overhead in the
+Linux kernel, supporting the practicality of selective compiler hardening.
+
+% Historically, researchers have treated memory safety-based and
+% speculative execution attacks as two separate domains. Recent work
+% has introduced Speculative Memory-error Abuse (SMA) attacks,
+% which combine memory corruption vulnerabilities with Spectrelike primitives.
+% Using SMA, an attacker can leak sensitive program
+% information and defeat a wide variety of memory-corruption mitigations,
+% including (K)ASLR, software-based XOM, and even ARM
+% PA, eventually carrying out an end-to-end (architecturally-visible)
+% exploit. We present Eclipse: a novel protection scheme against
+% SMA attacks. Eclipse works by propagating artificial data dependencies onto
+% sensitive data, preventing the CPU from using attackercontrolled data
+% during speculative execution. We demonstrate that
+% Eclipse provides comprehensive protection against speculativeprobing
+% and PACMAN-style attacks, two prominent examples of
+% SMA attacks that target both the x86(-64) and ARM architectures.
+% We evaluate the performance of Eclipse on x86-64 and demonstrate that
+% it introduces minimal overhead, compared to alternative
+% hardening approaches, incurring ≈0%–9.5% slowdown on SPEC
+% CPU 2017, up to 8.6% slowdown in real-world applications, and
+% negligible overhead in the Linux kernel.
+
+
+\project{EPF}{epf}
+% NOT-OK: XXX
+In EPF, we examined a blind spot in kernel defenses that isolate user-controlled
+memory from kernel memory. BPF programs originate with users but reside in
+kernel space, where the kernel legitimately accesses and executes them.
+An attacker can therefore use their in-memory representation to encode exploit
+payloads that remain accessible despite strong kernel-user isolation.
+We developed two techniques, BPF-Reuse and BPF-ROP, and combined them with four
+real-world vulnerabilities to demonstrate privilege escalation on 32- and
+64-bit x86 systems. We then designed defenses that treat BPF as a separate
+execution domain: isolate its instructions from ordinary kernel data, prevent
+data from being interpreted as BPF code, and preserve the integrity of BPF
+execution. Our Linux implementations incurred less than 3\% overhead on
+BPF-heavy workloads. EPF thus contributes both an exploitation method and
+concrete protections, showing why kernel hardening must account for
+user-supplied code even after it has crossed into a trusted address space.
+
+% The OS kernel is at the forefront of a system’s security. 
+% Therefore, its own security is crucial for the correctness and
+% integrity of user applications. With a plethora of bugs continuously 
+% discovered in OS kernel code, defenses and mitigations are essential 
+% for practical kernel security. One important
+% defense strategy is to isolate user-controlled memory from
+% kernel-accessible memory, in order to mitigate attacks like
+% ret2usr and ret2dir. We present EPF (Evil Packet Filter): a new
+% method for bypassing various (both deployed and proposed)
+% kernel isolation techniques by abusing the BPF infrastructure
+% of the Linux kernel: i.e., by leveraging BPF code, provided by
+% unprivileged users/programs, as attack payloads.
+% We demonstrate two different EPF instances, namely BPF-Reuse and
+% BPF-ROP, which utilize malicious BPF payloads to mount
+% privilege escalation attacks in both 32- and 64-bit x86 platforms.
+% We also present the design, implementation, and evaluation of a set of
+% defenses to enforce the isolation between BPF
+% instructions and benign kernel data, and the integrity of BPF
+% program execution, effectively providing protection against
+% EPF-based attacks. Our implemented defenses show minimal
+% overhead (< 3%) in BPF-heavy tasks.
+
+
+\section{Robustness of ML Systems}
+% NOT-OK: XXX
+Intro about ml robustness, and the citations of pixeldp...
+XXX Adversarial examples can make a neural network misclassify a slightly altered
+input. With collaborators at Columbia, I helped develop PixelDP, which uses
+
+\project{PixelDP}{pixeldp}
+% NOT-OK: XXX
+Adversarial examples can make a neural network misclassify a slightly altered
+input. With collaborators at Columbia, I helped develop PixelDP, which uses
+differential privacy to certify robustness against norm-bounded perturbations.
+It adds calibrated noise to a model's computation and checks, at inference
+time, whether an individual prediction remains stable within a specified
+attack budget. The construction applies across model architectures; we
+demonstrated certified $\ell_2$ robustness for Inception on ImageNet.
+An autoencoder front end can also protect an existing model with limited
+fine-tuning, providing a firewall-like deployment option. PixelDP extends
+formal guarantees to large networks while exposing the tradeoff between
+accuracy and the strength of the robustness bound.
+
+\section{Vulnerability Remediation}
+% NOT-OK: XXX
+Research on vulnerability discovery matters most when teams can act on what is
+found. My industry work addresses the operational problem of deciding which
+known issues warrant attention first in a large production environment.
+
+\project{Code-Aware Agent}{caa,caa_patent}
+% NOT-OK: XXX
+At Lacework, on Peter O'Hearn's Code Security team, I worked with Patrice
+Godefroid on CAA. Package inventories and vulnerability databases can produce
+more findings than a team can remediate quickly, while saying little about
+whether an affected package runs in production. CAA continuously monitors
+file-system activity, records when package files are opened or executed, and
+sends package-activity information to the security platform. Correlating this
+evidence with vulnerability findings lets teams focus remediation on packages
+active in their environments. The monitoring must be inexpensive enough to
+remain enabled throughout production execution. A publicly reported deployment
+study covering 2,428 machines found that 79\% of the vulnerable packages were
+inactive during the observation period. This result gives a concrete measure
+of how runtime evidence can reduce the immediate remediation workload; the
+activity classification continues to update as workloads change. The project
+connects my research on program behavior to the engineering requirements of
+an always-running security product.
+
+\project{POSIX abstractions}{posix}
+My earlier work asked whether the abstractions standardized by POSIX still
+match the needs of modern applications. With collaborators at Columbia, I
+built \texttt{libtrack} to combine detailed tracing of library calls with
+static analysis at scale, including a study of 1.1 million Android
+applications. Across Android, OS X, and Ubuntu consumer workloads, we found
+that platform-specific frameworks increasingly provide abstractions for
+graphics, inter-process communication, and structured storage that POSIX does
+not directly support. Although these systems address similar needs, their
+interfaces are diverging rather than converging on a shared standard.
+Extension mechanisms such as \texttt{ioctl} conceal the semantics of these
+operations from generic OS mediation, shifting responsibility to libraries
+and drivers and complicating both protection and portability. The study
+identified obsolete, unused, and missing abstractions, and argued for revising
+the standard around measured application needs. This measurement-driven
+approach remains central to how I want to study the interfaces required by
+agentic workloads.
+
+
+\section{Future Directions}
+Kernel protection is a fertile and challenging research area that I plan to
+continue working on, as kernel exploitation has currently turned into one of
+
+\
+\vspace{-0.75em}
+
+{\noindent~\circled{1}~\textbf{Kernel Security and Transient Execution Attacks.}}
+The second direction revisits the question raised by my POSIX study: which OS
+abstractions does a new class of applications actually need? I plan to measure
+agentic workloads as they create subprocesses, read and modify files, access
+networks, and invoke external tools. Comparing those traces with the privileges
+granted to each step can reveal where a missing abstraction forces developers
+to use broad permissions or ad hoc wrappers. The result should be a
+measurement-based account of agent behavior and concrete requirements for
+interfaces and policies that preserve useful work while containing a
+compromised or mistaken step. SysXCHG provides a starting point for asking
+whether privileges can follow the work being performed more precisely.
+
+\
+\vspace{-0.75em}
+
+{\noindent~\circled{1}~\textbf{Kernel Security and Transient Execution Attacks.}}
+The second direction revisits the question raised by my POSIX study: which OS
+abstractions does a new class of applications actually need? I plan to measure
+agentic workloads as they create subprocesses, read and modify files, access
+networks, and invoke external tools. Comparing those traces with the privileges
+granted to each step can reveal where a missing abstraction forces developers
+to use broad permissions or ad hoc wrappers. The result should be a
+measurement-based account of agent behavior and concrete requirements for
+interfaces and policies that preserve useful work while containing a
+compromised or mistaken step. SysXCHG provides a starting point for asking
+whether privileges can follow the work being performed more precisely.
+
+\
+\vspace{-0.75em}
+
+{\noindent~\circled{3}~\textbf{Diversification and Debloating.}}
+Diversifying the internal structure of system components, coupled with the
+The third direction treats the agent harness itself as a stateful system.
+Building on RESTler's dependency inference and Pythia's feedback-guided
+mutations, I want to generate multi-step tool interactions that vary
+permissions, environment state, and external responses. Active checkers can
+test properties such as authorization, isolation between tasks, and recovery
+after a failed tool call, including failures that do not produce a crash. I
+would evaluate these methods on real harnesses, with each finding reduced to
+a reproducible trace and a clear violated property. Together, these three
+directions would let testing evidence guide targeted hardening and
+remediation. I would welcome the opportunity to pursue this agenda with
+Bloomberg and help build dependable software systems at scale.
+
+renewcommand{\refname}{References}
+\small{
+\bibliographystyle{abbrv}
+\bibliography{statement}
+}
+
+\end{document}
