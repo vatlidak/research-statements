@@ -24,4 +24,4 @@ watch: view
 	$(LATEXMK) $(LATEXMK_FLAGS) -pvc -view=none $(PAPER).tex
 
 clean:
-	rm -f *.lot *.lof *.aux *.dvi *.blg *.bbl *.out *.mxl *.log $(PAPER).pdf
+	rm -f *.fls *.xdv *.lot *.lof *.aux *.dvi *.blg *.bbl *.out *.mxl *.log $(PAPER).pdf

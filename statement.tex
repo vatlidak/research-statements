@@ -141,6 +141,8 @@ structure to make exploration tractable and produce reproducible evidence
 that developers can act on.
 XXX
 
+% Change th my collaborators and I....
+
 \project{RESTler}{restler}
 % OK: DO NOT TOUCH
 During my Ph.D., along with collaborators at Microsoft Research, we introduced
@@ -309,52 +311,35 @@ instrumentation and existing OS and processor mechanisms to make these defenses
 practical for deployed software.
 
 \project{SysXCHG}{sysxchg}
-% NOT-OK: XXX
-Linux programs inherit access to a broad system-call interface, giving
-compromised code a rich set of operations for further exploitation.
-Conventional seccomp-BPF filtering introduces another source of over-privilege:
-because filters are inherited and can only become stricter, a program that
-executes other programs must allow the calls needed by its descendants.
-My collaborators and I designed SysXCHG around an exchange model. Each binary
-carries an \emph{exec filter}, automatically installed when that binary is
-executed, so protection adapts to the current program. Explicitly installed
-manual filters remain irreversible, preserving developer-imposed restrictions.
-We use Linux's Integrity Measurement Architecture to sign filter-carrying
-binaries and prevent tampering that would widen privileges. We also developed
-\texttt{xfilter}, which enforces number-based policies through a process-specific
-view of the kernel's syscall table. In the PaSH macrobenchmarks, the combined
-design incurred at most 1.71\% slowdown; \texttt{xfilter} also reduced filter
-installation time by approximately 76--96\%. SysXCHG therefore removes the
-over-privilege caused by filter inheritance while retaining efficient
-enforcement.
-
-% We present the design, implementation, and evaluation of SysXCHG:
-% a system call (syscall) filtering enforcement mechanism that enables
-% programs to run in accordance with the principle of least privilege.
-% In contrast to the current, hierarchical design of seccomp-BPF,
-% which does not allow a program to run with a different set of allowed
-% syscalls than its descendants, SysXCHG enables applications to run
-% with “tight” syscall filters, uninfluenced by any future-executed
-% (sub-)programs, by allowing filters to be dynamically exchanged at
-% runtime during execve[at]. As a part of SysXCHG, we also present
-% xfilter: a mechanism for fast filtering using a process-specific
-% view of the kernel’s syscall table where filtering is performed. In
-% our evaluation of SysXCHG, we found that our filter exchanging
-% design is performant, incurring ≤ 1.71% slowdown on real-world
-% programs in the PaSH benchmark suite, as well as effective, blocking
-% vast amounts of extraneous functionality, including security-critical
-% syscalls, which the current design of seccomp-BPF is unable to
-
-% Lastly, to allow programs that invoke other programs
-% (e.g., via execve[at]) execute in accordance to the PoLP, I designed SysXCHG: an innovative least-privilege
-% syscall-filtering enforcement mechanism that addresses the limitations of seccomp-BPF. Specifically, in contrast to the current, hierarchical design of seccomp-BPF, which does not permit a program to run with a
-% different set of allowed syscalls than its descendants, SysXCHG enables applications to run with “tight”
-% syscall filters, uninfluenced by any future-executed (sub-)programs, by allowing filters to be dynamically
-% exchanged at runtime (safely) during execve[at]. As a part of SysXCHG, we also introduced xfilter: a
-% new mechanism for fast syscall filtering, which relies on process-specific views of the kernel’s syscall table.
+% OK: DO NOT TOUCH
+Linux programs inherit access to a broad system-call interface, giving 
+compromised code a rich set of capabilities for further exploitation. 
+Although seccomp-BPF enables programs to restrict their system-call interface, 
+its inheritance model makes it challenging to enforce the principle of least
+privilege (PoLP) across program executions.
+My collaborators and I designed SysXCHG, a system-call filtering mechanism that
+enables programs to execute in accordance with the PoLP. At the core of SysXCHG
+is a new primitive, the \emph{exec filter}, which is embedded in the binary it
+applies to and automatically installed upon execve[at].
+Exec filters enable a new
+filtering model, the \emph{exchange model}, which, in contrast to seccomp-BPF’s
+inheritance model, allows a program to replace a previously installed exec
+filter with its own. To prevent
+adversaries from tampering with exec filters and escalating their privileges,
+SysXCHG leverages Linux’s Integrity Measurement Architecture (IMA) to
+authenticate filter-carrying binaries. Additionally, to address performance
+limitations in seccomp-BPF’s filter installation procedure, we introduced
+\texttt{xfilter}:  a mechanism for fast filtering using a process-specific
+view of the kernel’s syscall table where filtering is performed.
+filter exchanging incurs negligible performance overhead in the
+Our evaluation showed that the SysXCHG filter exchanging
+design is performant, incurring $\le 1.71\%$ slowdown on real-world
+programs in the PaSH benchmark suite, as well as effective, blocking
+vast amounts of extraneous functionality, including security-critical
+syscalls, which the current design of seccomp-BPF is unable to.
 
 \project{FineIBT}{fineibt}
-% NOT-OK: XXX
+% OK: DO NOT TOUCH
 Intel's Indirect Branch Tracking (IBT) restricts indirect calls and jumps to
 marked entry points, but does not distinguish which marked target is
 appropriate for a particular transfer. Supporting shared libraries makes this
@@ -367,106 +352,65 @@ class. The enforcement mechanism is independent of how the policy is derived,
 so different analyses and CFI granularities can use the same instrumentation.
 We implemented FineIBT in LLVM on Linux and evaluated both performance and
 compatibility with modern software features. Slowdowns were at most 1.94\%
-on SPEC CPU2017 and 1.92\% on the real-world applications tested, outperforming
+on SPEC CPU2017 and $1.92\%$ on the real-world applications tested, outperforming
 Clang-CFI. FineIBT demonstrates how modest software instrumentation can turn
 a coarse hardware primitive into a more precise, deployable defense.
 
-% We present the design, implementation, and evaluation of FineIBT:
-% a CFI enforcement mechanism that improves the precision of hardware-assisted
-% CFI solutions, like Intel IBT, by instrumenting program code to reduce the 
-% valid/allowed targets of indirect forwardedge transfers. We study the design
-% of FineIBT on the x86-64 architecture, and implement and evaluate
-% it on Linux and the LLVM
-% toolchain. We designed FineIBT’s instrumentation to be compact,
-% incurring low runtime and memory overheads, and generic, so as to
-% support different CFI policies. Our prototype implementation incurs
-% negligible runtime slowdowns (≈0%–1.94% in SPEC CPU2017 and
-% ≈0%–1.92% in real-world applications) outperforming Clang-CFI.
-% Lastly, we investigate the effectiveness/security and compatibility
-% of FineIBT using the ConFIRM CFI benchmarking suite, demonstrating that our instrumentation provides complete coverage in
-% the presence of modern software features, while supporting a wide
-% range of CFI policies with the same, predictable performance
-
 
 \project{Eclipse}{eclipse}
-% NOT-OK: XXX
+% OK: DO NOT TOUCH
 Memory corruption and speculative execution have often been studied separately,
 yet attacks can combine them to defeat mitigations such as address-space
-randomization and pointer authentication. Speculative probing, for example,
-can test attacker-supplied pointers without causing the architectural fault
-that would otherwise terminate the victim. My collaborators and I developed
-Eclipse to block this class of speculative memory-error abuse. The compiler
-identifies susceptible indirect branches and propagates artificial data
-dependencies to their operands, preventing attacker-controlled pointers from
-being used along mispredicted execution paths. This targets the attack's
-speculative computation without requiring every side channel or memory error
-to be eliminated, and without stopping speculation wholesale with fences.
-We demonstrated protection against speculative-probing and PACMAN-style
-attacks across userland and kernel settings on x86-64 and ARM. Our x86-64
-performance evaluation measured approximately 0--9.5\% slowdown on SPEC
-CPU2017, up to 8.6\% in real applications, and negligible overhead in the
-Linux kernel, supporting the practicality of selective compiler hardening.
-
-% Historically, researchers have treated memory safety-based and
-% speculative execution attacks as two separate domains. Recent work
-% has introduced Speculative Memory-error Abuse (SMA) attacks,
-% which combine memory corruption vulnerabilities with Spectrelike primitives.
-% Using SMA, an attacker can leak sensitive program
-% information and defeat a wide variety of memory-corruption mitigations,
-% including (K)ASLR, software-based XOM, and even ARM
-% PA, eventually carrying out an end-to-end (architecturally-visible)
-% exploit. We present Eclipse: a novel protection scheme against
-% SMA attacks. Eclipse works by propagating artificial data dependencies onto
-% sensitive data, preventing the CPU from using attackercontrolled data
-% during speculative execution. We demonstrate that
-% Eclipse provides comprehensive protection against speculativeprobing
-% and PACMAN-style attacks, two prominent examples of
-% SMA attacks that target both the x86(-64) and ARM architectures.
-% We evaluate the performance of Eclipse on x86-64 and demonstrate that
-% it introduces minimal overhead, compared to alternative
-% hardening approaches, incurring ≈0%–9.5% slowdown on SPEC
-% CPU 2017, up to 8.6% slowdown in real-world applications, and
-% negligible overhead in the Linux kernel.
-
+randomization and pointer authentication.
+Speculative Memory-error Abuse (SMA) attacks, however, combine memory
+corruption vulnerabilities with Spectre-like primitives. Using SMA, an
+attacker can leak sensitive program information and defeat a wide variety of
+memory-corruption mitigations, including (K)ASLR, software-based XOM,
+and even ARM PA, eventually carrying out an end-to-end (architecturally-visible)
+exploit. My collaborators and I developed Eclipse,
+a novel protection scheme against
+SMA attacks. Eclipse works by propagating artificial data dependencies onto
+sensitive data, preventing the CPU from using attackercontrolled data
+during speculative execution. We demonstrate that
+Eclipse provides comprehensive protection against speculativeprobing
+and PACMAN-style attacks, two prominent examples of
+SMA attacks that target both the x86(-64) and ARM architectures.
+We evaluate the performance of Eclipse on x86-64 and demonstrate that
+it introduces minimal overhead, compared to alternative
+hardening approaches, incurring $\approx 0$--$9.5\%$ slowdown on SPEC
+CPU 2017, up to $8.6\%$ slowdown in real-world applications, and
+negligible overhead in the Linux kernel.
 
 \project{EPF}{epf}
-% NOT-OK: XXX
-In EPF, we examined a blind spot in kernel defenses that isolate user-controlled
-memory from kernel memory. BPF programs originate with users but reside in
-kernel space, where the kernel legitimately accesses and executes them.
-An attacker can therefore use their in-memory representation to encode exploit
-payloads that remain accessible despite strong kernel-user isolation.
-We developed two techniques, BPF-Reuse and BPF-ROP, and combined them with four
-real-world vulnerabilities to demonstrate privilege escalation on 32- and
-64-bit x86 systems. We then designed defenses that treat BPF as a separate
-execution domain: isolate its instructions from ordinary kernel data, prevent
-data from being interpreted as BPF code, and preserve the integrity of BPF
-execution. Our Linux implementations incurred less than 3\% overhead on
-BPF-heavy workloads. EPF thus contributes both an exploitation method and
-concrete protections, showing why kernel hardening must account for
-user-supplied code even after it has crossed into a trusted address space.
-
-% The OS kernel is at the forefront of a system’s security. 
-% Therefore, its own security is crucial for the correctness and
-% integrity of user applications. With a plethora of bugs continuously 
-% discovered in OS kernel code, defenses and mitigations are essential 
-% for practical kernel security. One important
-% defense strategy is to isolate user-controlled memory from
-% kernel-accessible memory, in order to mitigate attacks like
-% ret2usr and ret2dir. We present EPF (Evil Packet Filter): a new
-% method for bypassing various (both deployed and proposed)
-% kernel isolation techniques by abusing the BPF infrastructure
-% of the Linux kernel: i.e., by leveraging BPF code, provided by
-% unprivileged users/programs, as attack payloads.
-% We demonstrate two different EPF instances, namely BPF-Reuse and
-% BPF-ROP, which utilize malicious BPF payloads to mount
-% privilege escalation attacks in both 32- and 64-bit x86 platforms.
-% We also present the design, implementation, and evaluation of a set of
-% defenses to enforce the isolation between BPF
-% instructions and benign kernel data, and the integrity of BPF
-% program execution, effectively providing protection against
-% EPF-based attacks. Our implemented defenses show minimal
-% overhead (< 3%) in BPF-heavy tasks.
+% OK: DO NOT TOUCH
+The OS kernel is a particularly attractive target for adversaries,
+as its compromise can undermine the security of the entire system.
+Despite significant advances in defenses against kernel control-flow
+hijacking and data-oriented attacks, the increasing extensibility of
+modern OS kernels introduces new security challenges.
+Therefore, I started investigating the security ramifications of
+allowing user-space applications to delegate computations to the OS
+kernel through mechanisms such as BPF (Berkeley Packet Filter).
+BPF empowers user-space processes to offload computations to kernel
+space and customize kernel functionality by effectively providing
+a general-purpose, in-kernel virtual machine. To this end,
+I conceived, launched, and led EPF (Evil Packet Filter),
+an offensive security project investigating the implications
+of BPF for the security and robustness of the OS kernel.
+Specifically, as part of EPF, I introduced two novel attacks,
+dubbed EPF-v1 (BPF-Reuse) and EPF-v2 (BPF-ROP), demonstrating
+how (e)BPF can be abused to facilitate both code-reuse and
+data-oriented attacks, bypassing existing kernel defenses against
+such threats. EPF-v1 leverages kernel memory corruption vulnerabilities
+to divert execution to unintended offsets within benign,
+verified BPF programs. This effectively enables the execution of
+unverified instructions, bypassing the constraints imposed by the BPF
+runtime and facilitating sandbox escapes, access-control violations,
+and privilege escalation. EPF-v2 abuses valid, verified BPF programs to 
+encode code-reuse payloads, thereby facilitating their injection into 
+kernel space. Fundamentally, both attacks exploit the ability to conceal 
+malicious payloads within seemingly benign BPF programs that pass 
+verification.
 
 
 \section{Robustness of ML Systems}
@@ -514,6 +458,7 @@ connects my research on program behavior to the engineering requirements of
 an always-running security product.
 
 \project{POSIX abstractions}{posix}
+% OK: DO NOT TOUCH
 My earlier work asked whether the abstractions standardized by POSIX still
 match the needs of modern applications. With collaborators at Columbia, I
 built \texttt{libtrack} to combine detailed tracing of library calls with
