@@ -8,7 +8,7 @@ LATEXMK_FLAGS=-xelatex
 
 all: $(PAPER).pdf
 
-$(PAPER).bbl: *.bib
+$(PAPER).bbl: $(PAPER).tex $(PAPER).bib $(wildcard *.bst)
 	$(LATEX) $(PAPER)
 	$(BIBTEX) $(PAPER)
 
@@ -24,4 +24,4 @@ watch: view
 	$(LATEXMK) $(LATEXMK_FLAGS) -pvc -view=none $(PAPER).tex
 
 clean:
-	rm -f *.fls *.xdv *.lot *.lof *.aux *.dvi *.blg *.bbl *.out *.mxl *.log $(PAPER).pdf
+	rm -f *.fdb_latexmk *.fls *.xdv *.lot *.lof *.aux *.dvi *.blg *.bbl *.out *.mxl *.log $(PAPER).pdf
