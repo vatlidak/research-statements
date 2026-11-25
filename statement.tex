@@ -144,9 +144,9 @@ XXX
 % Change th my collaborators and I....
 
 \project{RESTler}{restler}
-% OK: DO NOT TOUCH
 During my Ph.D., along with collaborators at Microsoft Research, we introduced
-stateful REST API fuzzing and built RESTler, the first stateful REST API fuzzer.
+stateful REST API fuzzing and built \texttt{RESTler},
+the first stateful REST API fuzzer.
 Although REST APIs expose cloud-service operations individually, our key
 observation was that those
 operations are not independent: their behavior can depend on resources created
@@ -161,7 +161,7 @@ Our evaluation showed that both dependency inference and response feedback were
 necessary to explore deeply while controlling the combinatorial search space.
 This work
 established a way to automatically test cloud services through their APIs.
-Since 2017, RESTler is used internally by multiple Microsoft
+Since 2017, \textbf{\texttt{RESTler}} is used internally by multiple Microsoft
 teams for security, reliability, and functional correctness testing,
 and has found hundreds of bugs in multiple production O365, Azure, and Bing
 cloud services.
@@ -169,7 +169,6 @@ In 2020, RESTler became open-source, and its usage has been
 steadily growing since, both inside and outside Microsoft.
 
 \project{Checking security properties of REST APIs}{restler2}
-% OK: DO NOT TOUCH
 Crashes exposed by RESTler cover only part of a cloud service's attack surface:
 an API may return a
 successful response while violating resource ownership or isolation. Therefore,
@@ -189,7 +188,6 @@ detect non-crashing security failures with implications for resource hijacking, 
 disclosure, and denial of service.
 
 \project{Pythia}{pythia}
-% OK: DO NOT TOUCH
 RESTler's generated grammars preserve request structure and dependencies, but
 inherently use fixed fuzzing dictionaries of strings and numbers, which limit
 the set of malformed value combinations that can be explore. To address this,
@@ -207,7 +205,6 @@ to use learning to expand fuzzing domains, while preserving the structure
 needed to reach deeper application logic.
 
 \project{IvySyn}{ivysyn}
-% OK: DO NOT TOUCH
 Deep-learning frameworks expose native C/C++ kernels through managed-language
 interfaces, and missing checks or inconsistent assumptions between the layers of
 native and managed languages can let untrusted inputs reach memory-unsafe code.
@@ -230,7 +227,6 @@ vulnerabilities ($39$ unique CVEs assigned), implicitly and explicitly
 affecting millions, if not billions, of users worldwide.
 
 \project{FuzzWarp}{fuzzwarp}
-% OK: DO NOT TOUCH
 Our recent FuzzWarp work extends IvySyn's bottom-up testing approach to target
 GPU kernels, while directly controlling the host-to-GPU execution path. FuzzWarp
 first verifies that each test input reaches the intended target kernel, which was
@@ -249,7 +245,6 @@ and uncovered $99$ previously unknown GPU-specific memory-safety bugs in
 TensorFlow and PyTorch ($62$ confirmed; $37$ fixed).
 
 \project{StratoFuzz}{stratofuzz}
-% OK: DO NOT TOUCH
 Space missions depend on communication stacks that
 preserve the confidentiality, integrity, and availability of their
 data links. Testing these stacks remains difficult, however,
@@ -270,7 +265,6 @@ assigned), most requiring complex multi-message sequences in order to be
 triggered
 
 \project{Cynthia}{cynthia}
-% OK: DO NOT TOUCH
 ORMs can silently return incorrect query results, yet their distinct APIs and
 dependence on database contents make such bugs difficult to test systematically.
 With collaborators from the Athens University of Economics and Business, we
@@ -287,7 +281,6 @@ $25$ were confirmed, of which, $20$ were fixed, and three were marked as
 release blockers by their corresponding developers.
 
 \project{FairTest}{fairtest}
-% OK: DO NOT TOUCH
 Data-driven applications can treat users unfairly or offensively, yet such
 effects are difficult to identify without suitable tools. With collaborators
 from EPFL, we introduced the unwarranted associations (UA) framework, which
@@ -303,7 +296,6 @@ bias against older users in a predictive health application and offensive
 racial labels in an image tagging application.
 
 \section{Systematic Software Hardening}
-% NOT-OK: XXX
 XXX Testing will never find every defect. My hardening work therefore narrows the
 authority available to compromised code and blocks exploit paths even when a
 memory error remains. With collaborators at Brown, I have used compiler
@@ -311,7 +303,6 @@ instrumentation and existing OS and processor mechanisms to make these defenses
 practical for deployed software.
 
 \project{SysXCHG}{sysxchg}
-% OK: DO NOT TOUCH
 Linux programs inherit access to a broad system-call interface, giving 
 compromised code a rich set of capabilities for further exploitation. 
 Although seccomp-BPF enables programs to restrict their system-call interface, 
@@ -322,15 +313,15 @@ enables programs to execute in accordance with the PoLP. At the core of SysXCHG
 is a new primitive, the \emph{exec filter}, which is embedded in the binary it
 applies to and automatically installed upon execve[at].
 Exec filters enable a new
-filtering model, the \emph{exchange model}, which, in contrast to seccomp-BPF’s
+filtering model, the \emph{exchange model}, which, in contrast to seccomp-BPF's
 inheritance model, allows a program to replace a previously installed exec
 filter with its own. To prevent
 adversaries from tampering with exec filters and escalating their privileges,
-SysXCHG leverages Linux’s Integrity Measurement Architecture (IMA) to
+SysXCHG leverages Linux's Integrity Measurement Architecture (IMA) to
 authenticate filter-carrying binaries. Additionally, to address performance
-limitations in seccomp-BPF’s filter installation procedure, we introduced
+limitations in seccomp-BPF's filter installation procedure, we introduced
 \texttt{xfilter}:  a mechanism for fast filtering using a process-specific
-view of the kernel’s syscall table where filtering is performed.
+view of the kernel's syscall table where filtering is performed.
 filter exchanging incurs negligible performance overhead in the
 Our evaluation showed that the SysXCHG filter exchanging
 design is performant, incurring $\le 1.71\%$ slowdown on real-world
@@ -339,7 +330,6 @@ vast amounts of extraneous functionality, including security-critical
 syscalls, which the current design of seccomp-BPF is unable to.
 
 \project{FineIBT}{fineibt}
-% OK: DO NOT TOUCH
 Intel's Indirect Branch Tracking (IBT) restricts indirect calls and jumps to
 marked entry points, but does not distinguish which marked target is
 appropriate for a particular transfer. Supporting shared libraries makes this
@@ -358,7 +348,6 @@ a coarse hardware primitive into a more precise, deployable defense.
 
 
 \project{Eclipse}{eclipse}
-% OK: DO NOT TOUCH
 Memory corruption and speculative execution have often been studied separately,
 yet attacks can combine them to defeat mitigations such as address-space
 randomization and pointer authentication.
@@ -382,7 +371,6 @@ CPU 2017, up to $8.6\%$ slowdown in real-world applications, and
 negligible overhead in the Linux kernel.
 
 \project{EPF}{epf}
-% OK: DO NOT TOUCH
 The OS kernel is a particularly attractive target for adversaries,
 as its compromise can undermine the security of the entire system.
 Despite significant advances in defenses against kernel control-flow
@@ -413,34 +401,48 @@ malicious payloads within seemingly benign BPF programs that pass
 verification.
 
 
-\section{Robustness of ML Systems}
-% NOT-OK: XXX
+\project{PixelDP}{pixeldp}
 Intro about ml robustness, and the citations of pixeldp...
 XXX Adversarial examples can make a neural network misclassify a slightly altered
 input. With collaborators at Columbia, I helped develop PixelDP, which uses
 
-\project{PixelDP}{pixeldp}
-% NOT-OK: XXX
-Adversarial examples can make a neural network misclassify a slightly altered
-input. With collaborators at Columbia, I helped develop PixelDP, which uses
-differential privacy to certify robustness against norm-bounded perturbations.
-It adds calibrated noise to a model's computation and checks, at inference
-time, whether an individual prediction remains stable within a specified
-attack budget. The construction applies across model architectures; we
-demonstrated certified $\ell_2$ robustness for Inception on ImageNet.
-An autoencoder front end can also protect an existing model with limited
-fine-tuning, providing a firewall-like deployment option. PixelDP extends
-formal guarantees to large networks while exposing the tradeoff between
-accuracy and the strength of the robustness bound.
+Deep neural networks (DNNs) support applications such as autonomous driving,
+malware detection, and face recognition, where a mistaken prediction can have
+serious consequences. Yet an adversary can sometimes change a correct prediction
+by making only a small alteration to the input. A subtle change to a traffic
+sign, for example, could cause a vision system to assign it the wrong label.
+These adversarial examples have prompted a succession of attacks and defenses,
+but many defenses offer only empirical protection and fail against stronger
+attacks. Certified defenses provide mathematical guarantees against bounded
+perturbations, although earlier methods have struggled to scale to large
+datasets or accommodate diverse network architectures.
+
+We present PixelDP, a certified defense based on a connection between
+adversarial robustness and differential privacy (DP). PixelDP treats input
+features, rather than training records, as the units whose changes must have
+a bounded effect. It adds calibrated noise to a sensitivity controlled part
+of a model, limiting how much the distribution of prediction scores can change
+under a norm bounded perturbation. DP's post processing property preserves this
+bound through the rest of the network. The defense can therefore be incorporated
+into different architectures or placed in an autoencoder before an existing
+classifier. At inference time, PixelDP uses repeated randomized evaluations
+and confidence bounds to estimate class scores. It certifies an individual
+prediction when the leading class remains ahead of every alternative throughout
+a specified perturbation region; these certificates also provide a lower bound
+on accuracy under attack across a dataset. We evaluate PixelDP on five datasets,
+including ImageNet with an Inception-v3 classifier. On ImageNet, one
+configuration achieves 59\% certified accuracy against L2 perturbations smaller
+than 0.09 while retaining 68.3\% conventional accuracy. The results show how
+DP can support certification at scale while making clear the tradeoff between
+noise, accuracy, and certified radius
+
 
 \section{Vulnerability Remediation}
-% NOT-OK: XXX
 Research on vulnerability discovery matters most when teams can act on what is
 found. My industry work addresses the operational problem of deciding which
 known issues warrant attention first in a large production environment.
 
 \project{Code-Aware Agent}{caa,caa_patent}
-% NOT-OK: XXX
 At Lacework, on Peter O'Hearn's Code Security team, I worked with Patrice
 Godefroid on CAA. Package inventories and vulnerability databases can produce
 more findings than a team can remediate quickly, while saying little about
@@ -457,24 +459,29 @@ activity classification continues to update as workloads change. The project
 connects my research on program behavior to the engineering requirements of
 an always-running security product.
 
+
+\section{Other Research}
+XXX
+
 \project{POSIX abstractions}{posix}
-% OK: DO NOT TOUCH
-My earlier work asked whether the abstractions standardized by POSIX still
-match the needs of modern applications. With collaborators at Columbia, I
-built \texttt{libtrack} to combine detailed tracing of library calls with
-static analysis at scale, including a study of 1.1 million Android
-applications. Across Android, OS X, and Ubuntu consumer workloads, we found
-that platform-specific frameworks increasingly provide abstractions for
-graphics, inter-process communication, and structured storage that POSIX does
-not directly support. Although these systems address similar needs, their
-interfaces are diverging rather than converging on a shared standard.
-Extension mechanisms such as \texttt{ioctl} conceal the semantics of these
-operations from generic OS mediation, shifting responsibility to libraries
-and drivers and complicating both protection and portability. The study
-identified obsolete, unused, and missing abstractions, and argued for revising
-the standard around measured application needs. This measurement-driven
-approach remains central to how I want to study the interfaces required by
-agentic workloads.
+POSIX was designed to make applications portable across UNIX-based operating
+systems, but modern applications increasingly need abstractions that its API
+does not provide. To understand how this gap affects software, we measured
+POSIX use in applications on Android, OS X, and Ubuntu, combining detailed
+execution traces with an analysis of 1.1 million Android applications. We found
+that applications often obtain communication, concurrency, storage, and graphics
+services through platform-specific libraries built on top of POSIX. This
+layering can create mismatches and inefficiencies between the operations
+applications need and the interfaces available to implement them. It can also
+create security risks: newer abstractions rely heavily on extension interfaces
+such as ioctl, whose higher-level meaning the OS cannot readily mediate.
+Responsibility for enforcing coherent protections then falls to user-space
+libraries and device drivers. Although similar needs are driving new
+abstractions across the three systems, their interfaces are diverging rather
+than forming a shared standard. Our findings show that POSIX remains an
+important foundation while its role as an application-facing portability
+interface weakens, with implications for operating system design and future
+standardization.
 
 
 \section{Future Directions}
@@ -528,9 +535,9 @@ directions would let testing evidence guide targeted hardening and
 remediation. I would welcome the opportunity to pursue this agenda with
 Bloomberg and help build dependable software systems at scale.
 
-renewcommand{\refname}{References}
+\renewcommand{\refname}{References}
 \small{
-\bibliographystyle{abbrv}
+\bibliographystyle{statement-quotes}
 \bibliography{statement}
 }
 
