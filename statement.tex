@@ -329,24 +329,6 @@ programs in the PaSH benchmark suite, as well as effective, blocking
 vast amounts of extraneous functionality, including security-critical
 syscalls, which the current design of seccomp-BPF is unable to.
 
-\project{FineIBT}{fineibt}
-Intel's Indirect Branch Tracking (IBT) restricts indirect calls and jumps to
-marked entry points, but does not distinguish which marked target is
-appropriate for a particular transfer. Supporting shared libraries makes this
-policy especially permissive, because exported functions must also be marked.
-With collaborators at Brown and Intel, I co-developed FineIBT to enforce
-finer-grained control-flow integrity (CFI) on top of this hardware mechanism.
-Compact instrumentation passes a policy identifier at an indirect call and
-checks it at the target, preventing transfers to functions outside the allowed
-class. The enforcement mechanism is independent of how the policy is derived,
-so different analyses and CFI granularities can use the same instrumentation.
-We implemented FineIBT in LLVM on Linux and evaluated both performance and
-compatibility with modern software features. Slowdowns were at most 1.94\%
-on SPEC CPU2017 and $1.92\%$ on the real-world applications tested, outperforming
-Clang-CFI. FineIBT demonstrates how modest software instrumentation can turn
-a coarse hardware primitive into a more precise, deployable defense.
-
-
 \project{Eclipse}{eclipse}
 Memory corruption and speculative execution have often been studied separately,
 yet attacks can combine them to defeat mitigations such as address-space
@@ -463,6 +445,24 @@ an always-running security product.
 \section{Other Research}
 XXX
 
+\project{FineIBT}{fineibt}
+Intel's Indirect Branch Tracking (IBT) restricts indirect calls and jumps to
+marked entry points, but does not distinguish which marked target is
+appropriate for a particular transfer. Supporting shared libraries makes this
+policy especially permissive, because exported functions must also be marked.
+With collaborators at Brown and Intel, I co-developed FineIBT to enforce
+finer-grained control-flow integrity (CFI) on top of this hardware mechanism.
+Compact instrumentation passes a policy identifier at an indirect call and
+checks it at the target, preventing transfers to functions outside the allowed
+class. The enforcement mechanism is independent of how the policy is derived,
+so different analyses and CFI granularities can use the same instrumentation.
+We implemented FineIBT in LLVM on Linux and evaluated both performance and
+compatibility with modern software features. Slowdowns were at most 1.94\%
+on SPEC CPU2017 and $1.92\%$ on the real-world applications tested, outperforming
+Clang-CFI. FineIBT demonstrates how modest software instrumentation can turn
+a coarse hardware primitive into a more precise, deployable defense.
+
+
 \project{POSIX abstractions}{posix}
 POSIX was designed to make applications portable across UNIX-based operating
 systems, but modern applications increasingly need abstractions that its API
@@ -482,6 +482,7 @@ than forming a shared standard. Our findings show that POSIX remains an
 important foundation while its role as an application-facing portability
 interface weakens, with implications for operating system design and future
 standardization.
+
 
 
 \section{Future Directions}
